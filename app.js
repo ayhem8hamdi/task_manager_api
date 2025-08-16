@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
-require("dotenv").config();// with this line our project will have the ability to read from the .env file
+require("dotenv").config(); // with this line our project will have the ability to read from the .env file
 const {errorHandler , notFoundHandler} = require("./middlewares/errors");
 const {connectToDB}=require("./config/db_connection");
+const tasks = require("./routes/tasks");
 
 // DataBase Connection 
 connectToDB();
@@ -12,6 +13,11 @@ app.use(express.json());
 
 
 // Routes
+app.get("/",(req,res)=>{
+    res.send("Task Manager Api");
+});
+app.use("/api/v1/tasks",tasks);
+
 
 // Error + Not Found Handler
 app.use(notFoundHandler);
