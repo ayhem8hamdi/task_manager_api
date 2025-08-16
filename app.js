@@ -23,7 +23,9 @@ app.use("/api/v1/tasks",tasks);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-
+app.listen(process.env.PORT || 8000, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`);
+});
 
 
 

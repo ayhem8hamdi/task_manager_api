@@ -1,19 +1,49 @@
- module.exports.getallTasks = (req,res)=>{
-    res.json({message : "get all tasks"});
-}
+const asyncHandler = require('express-async-handler');
+const Tasks = require("../models/task_model");
 
- module.exports.getTaskById = (req,res)=>{
-    res.json({message : "get task by id"});
-}
+// get all tasks : 
 
- module.exports.createtask = (req,res)=>{
-    res.json({message : "Create task"});
+const getAllTasks =asyncHandler(
+  async  (req, res) => {
+    const allTasks= await Tasks.find();
+    res.status(200).json(allTasks);
 }
+); 
 
- module.exports.updateTaskById = (req,res)=>{
-    res.json({message : "update task by id"});
-}
+const getTaskById = (req, res) => {
+  res.json({ message: "get task by id" });
+};
+// create task :
 
- module.exports.deleteTaskById = (req,res)=>{
-    res.json({message : "delete task by id"});
-}
+const createTask = asyncHandler(async (req, res) => {
+    const {taskName,isCompleted}=req.body;
+    const newTask= await Tasks.create({
+            taskName: taskName,
+        isCompleted: isCompleted || false,
+    })
+     res.status(201).json({
+        data: {
+            taskName: newTask.taskName,
+            isCompleted: newTask.isCompleted,
+            createdAt: newTask.createdAt,
+            updatedAt: newTask.updatedAt,
+        },
+        message: 'Task created successfully',
+    });
+});
+
+const updateTaskById = (req, res) => {
+  res.json({ message: "update task by id" });
+};
+
+const deleteTaskById = (req, res) => {
+  res.json({ message: "delete task by id" });
+};
+
+module.exports = {
+  getAllTasks,
+  getTaskById,
+  createTask,
+  updateTaskById,
+  deleteTaskById
+};
