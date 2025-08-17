@@ -49,9 +49,18 @@ const updateTaskById = (req, res) => {
   res.json({ message: "update task by id" });
 };
 
-const deleteTaskById = (req, res) => {
-  res.json({ message: "delete task by id" });
-};
+
+
+
+// delete  task by id
+
+const deleteTaskById = asyncHandler(async (req, res) => {
+ const deletedTask= await Tasks.findByIdAndDelete({_id:req.params.id});
+ if (!deletedTask) {
+    return res.status(404).json({message: "sorry but there are something wrong happens  while deleting task .. please verify ur id"});
+ } 
+ res.status(200).json({message : "item deleted succesfully", deletedTask});
+});
 
 module.exports = {
   getAllTasks,
