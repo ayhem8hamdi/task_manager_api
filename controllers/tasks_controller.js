@@ -5,14 +5,27 @@ const Tasks = require("../models/task_model");
 
 const getAllTasks =asyncHandler(
   async  (req, res) => {
-    const allTasks= await Tasks.find();
+    const allTasks = await Tasks.find({}).select("-__v");
     res.status(200).json(allTasks);
 }
 ); 
 
-const getTaskById = (req, res) => {
-  res.json({ message: "get task by id" });
-};
+
+
+// get task by id
+
+const getTaskById = asyncHandler(async (req, res) => {
+    const currentTask = await Tasks.findOne({_id: req.params.id}).select("-__v");
+    if (!currentTask) {
+        res.status(404).json({message : "this task is not found"});
+        return;
+    }
+  res.status(200).json(currentTask);
+});
+
+
+
+
 // create task :
 
 const createTask = asyncHandler(async (req, res) => {
