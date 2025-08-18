@@ -13,15 +13,15 @@ app.use(express.json());
 
 
 // Routes
-app.get("/",(req,res)=>{
-    res.send("Task Manager Api");
-});
 app.use("/api/v1/tasks",tasks);
 
 
 // Error + Not Found Handler
+
 app.use(notFoundHandler);
 app.use(errorHandler);
+
+
 
 app.listen(process.env.PORT || 8000, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`);

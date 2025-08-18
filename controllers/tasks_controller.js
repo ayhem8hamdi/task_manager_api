@@ -52,12 +52,15 @@ const createTask = asyncHandler(async (req, res) => {
 
 const updateTaskById = asyncHandler(
   async  (req, res) => {
+
     const {taskName ,  isCompleted}= req.body;
-  const  updatedTask =await Task.findByIdAndUpdate(req.params.id, { taskName: taskName , isCompleted: isCompleted}, { new: true, runValidators: true });
+
+  const  updatedTask =await Tasks.findByIdAndUpdate(req.params.id, { taskName: taskName , isCompleted: isCompleted}, { new: true, runValidators: true });
+
 if (!updatedTask) {
    return res.status(404).json({message : 'verify entred id'});
 }
-return res.status(200).json({message : 'task updated successfully', updatedTask});
+ res.status(200).json({message : 'task updated successfully', updatedTask});
 }
 );
 
